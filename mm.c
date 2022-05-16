@@ -3,8 +3,8 @@
 #include<memory.h>
 #include<unistd.h>     //for getting one virtual page 
 #include<sys/mman.h>   //for using mmap
-#include "mm.h"
 #include<assert.h>
+#include "mm.h"
 
 static size_t SYSTEM_PAGE_SIZE=0;
 static vm_page_for_families_t* first_vm_page_for_families=NULL;
@@ -70,6 +70,18 @@ void mm_instantiate_new_page_family(char* struct_name,int struct_size){
 
 }
 
+
+void Iterate_Over_All_Page_Families(){
+     vm_page_for_families_t* page_itr=first_vm_page_for_families;
+     while(page_itr){
+         vm_page_family_t* currpage=&page_itr->vm_page_family[0];
+         while(currpage->struct_size){
+            printf("struct Name: %s\n",currpage->struct_name);
+            currpage++;
+         }
+         page_itr=page_itr->next;
+     }
+}
 
 
 
