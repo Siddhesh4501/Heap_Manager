@@ -16,7 +16,7 @@ int main(){
     mm_init();
     MM_REG_STRUCT(student);
     MM_REG_STRUCT(emp);
-    Iterate_Over_All_Page_Families();
+    Iterate_over_all_structures();
 
 
     return 0;

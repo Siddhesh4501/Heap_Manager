@@ -7,7 +7,7 @@
 #include "mm.h"
 
 static size_t SYSTEM_PAGE_SIZE=0;
-static vm_page_for_families_t* first_vm_page_for_families=NULL;
+static struct_for_struct_storing* first_page_to_store_struct=NULL;
 
 void mm_init(){
     SYSTEM_PAGE_SIZE=getpagesize();
@@ -29,52 +29,52 @@ static void* return_vm_page_to_kernel(void* vm_page,int units){
         printf("Error:could not free vm_page\n");
     }
 }
+struct_for_struct_info* find_location_to_allocate(struct_for_struct_storing* vm_page,int* count){
+    struct_for_struct_info* current=&(vm_page->struct_group[0]);
+    while(current->struct_size && (*count)<MAX_PAGE_FAMILY_PER_PAGE){
+        current++;
+        (*count)++;
+    }
+    return current;
+}
 
+void mm_instantiate_structure(char* struct_name,int struct_size){
 
-void mm_instantiate_new_page_family(char* struct_name,int struct_size){
-
-  vm_page_family_t* vm_page_family_curr=NULL;
-  vm_page_for_families_t* new_vm_page_for_families=NULL;
+  struct_for_struct_info* curr_for_finding_pos=NULL;
+  struct_for_struct_storing* new_page_for_storing_struct=NULL;
   if(struct_size>SYSTEM_PAGE_SIZE){
       printf("Page size exceded");
       return;
   }
-  if(!first_vm_page_for_families){
-      first_vm_page_for_families=(vm_page_for_families_t*)mm_get_new_virtual_memory_page_from_kernal(1);
-      first_vm_page_for_families->next=NULL;
-      strcpy(first_vm_page_for_families->vm_page_family[0].struct_name,struct_name);
-      first_vm_page_for_families->vm_page_family[0].struct_size=struct_size;
+  if(!first_page_to_store_struct){
+      first_page_to_store_struct=(struct_for_struct_storing*)mm_get_new_virtual_memory_page_from_kernal(1);
+      first_page_to_store_struct->next=NULL;
+      strcpy(first_page_to_store_struct->struct_group[0].struct_name,struct_name);
+      first_page_to_store_struct->struct_group[0].struct_size=struct_size;
       return;
   }
+
   int count=0;
-
-  ITERATIVE_PAGE_FAMILES_BEGIN(first_vm_page_for_families,vm_page_family_curr){
-      if(strcmp(vm_page_family_curr->struct_name,struct_name)!=0){
-        count++;
-        continue;
-      }
-      assert(0);
-
-  } ITERATIVE_PAGE_FAMILES_END(first_vm_page_for_families,vm_page_family_curr);
+  curr_for_finding_pos=find_location_to_allocate(first_page_to_store_struct,&count);
 
   if(count==MAX_PAGE_FAMILY_PER_PAGE){
-     new_vm_page_for_families=(vm_page_for_families_t*)mm_get_new_virtual_memory_page_from_kernal(1);
-     new_vm_page_for_families->next=first_vm_page_for_families;
-     first_vm_page_for_families=new_vm_page_for_families;
-     vm_page_family_curr=&first_vm_page_for_families->vm_page_family[0];
+     new_page_for_storing_struct=(struct_for_struct_storing*)mm_get_new_virtual_memory_page_from_kernal(1);
+     new_page_for_storing_struct->next=first_page_to_store_struct;
+     first_page_to_store_struct=new_page_for_storing_struct;
+     curr_for_finding_pos=&first_page_to_store_struct->struct_group[0];
   }
-  strcpy(vm_page_family_curr->struct_name,struct_name);
-  vm_page_family_curr->struct_size=struct_size;
-//   printf("%s",vm_page_family_curr->struct_name);
+  strcpy(curr_for_finding_pos->struct_name,struct_name);
+  curr_for_finding_pos->struct_size=struct_size;
+//   printf("%s",curr_for_finding_pos->struct_name);
 
 
 }
 
 
-void Iterate_Over_All_Page_Families(){
-     vm_page_for_families_t* page_itr=first_vm_page_for_families;
+void Iterate_over_all_structures(){
+     struct_for_struct_storing* page_itr=first_page_to_store_struct;
      while(page_itr){
-         vm_page_family_t* currpage=&page_itr->vm_page_family[0];
+         struct_for_struct_info* currpage=&page_itr->struct_group[0];
          while(currpage->struct_size){
             printf("struct Name: %s\n",currpage->struct_name);
             currpage++;
@@ -82,6 +82,8 @@ void Iterate_Over_All_Page_Families(){
          page_itr=page_itr->next;
      }
 }
+
+
 
 
 

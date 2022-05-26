@@ -6,11 +6,11 @@
 
 void mm_init();
 
-void mm_instantiate_new_page_family(char* struct_name,int struct_size);
+void mm_instantiate_structure(char* struct_name,int struct_size);
 
 #define MM_REG_STRUCT(struct_name) \
-       (mm_instantiate_new_page_family(#struct_name,sizeof(struct_name)))
+       (mm_instantiate_structure(#struct_name,sizeof(struct_name)))
 
-void Iterate_Over_All_Page_Families();
+void Iterate_over_all_structures();
 
 #endif
