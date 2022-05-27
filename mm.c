@@ -147,7 +147,48 @@ void* Malloc(int size){
     return get_actual_add(block);
 }
 
-
+void Free(void* ptr){
+    // printf("Hello");
+    meta_block* mbcurr=(char*)ptr-sizeof(meta_block);
+    mbcurr->is_free=1;
+    meta_block* mbnext=mbcurr->next;
+    meta_block* mbprev=mbcurr->prev;
+    int flag1=0,flag2=0;
+    if(mbprev && mbprev->is_free)
+      flag1=1;
+    if(mbnext && mbnext->is_free)
+      flag2=1;
+    if(flag1 && flag2){
+        findandremove(pointer_to_heap,mbnext);
+        findandremove(pointer_to_heap,mbprev);
+        int total_size=mbprev->size+mbcurr->size+mbnext->size+2*(sizeof(meta_block));
+        mbprev->size=total_size;
+        mbprev->next=mbnext->next;
+        if(mbnext->next) mbnext->next->prev=mbprev;
+        insert_heap(pointer_to_heap,mbprev);
+        return;
+    }
+    if(flag1){
+        findandremove(pointer_to_heap,mbprev);
+        int total_size=mbprev->size+mbcurr->size+sizeof(meta_block);
+        mbprev->size=total_size;
+        mbprev->next=mbcurr->next;
+        if(mbnext) mbnext->prev=mbprev;
+        insert_heap(pointer_to_heap,mbprev);
+        return;
+    }
+    if(flag2){
+        findandremove(pointer_to_heap,mbnext);
+        int total_size=mbnext->size+mbcurr->size+sizeof(meta_block);
+        mbcurr->size=total_size;
+        mbcurr->next=mbnext->next;
+        if(mbnext->next) mbnext->next->prev=mbcurr;
+        insert_heap(pointer_to_heap,mbcurr);
+        return;
+    }
+    insert_heap(pointer_to_heap,mbcurr);
+    return;
+}
 
 
 

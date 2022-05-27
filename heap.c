@@ -72,3 +72,59 @@ meta_block* top_heap(heap* h){
     if(h->rear==-1) return NULL;
     return h->arr[0];
 }
+
+int findindex(heap* h,meta_block* mb){
+    for(int i=0;i<=h->rear;i++){
+        if(h->arr[i]==mb)
+           return i;
+    }
+    return -1;
+}
+
+void goup(heap* h,int i){
+    int parent=(i-1)/2;
+    while(h->arr[parent]->size<h->arr[i]->size){
+        meta_block* temp=h->arr[i];
+        h->arr[i]=h->arr[parent];
+        h->arr[parent]=temp;
+    }
+    return;
+}
+
+void godown(heap* h,int i){
+    while(1){
+        int left=i*2+1;
+        int right=i*2+2;
+        int maxi=h->arr[i]->size;
+        if(left<=h->rear)
+           maxi=max(maxi,h->arr[left]->size);
+        if(right<=h->rear)
+           maxi=max(maxi,h->arr[right]->size);
+        if(maxi==h->arr[i]->size)
+           return;
+        if(left<=h->rear && maxi==h->arr[left]->size){
+            meta_block* temp=h->arr[i];
+            h->arr[i]=h->arr[left];
+            h->arr[left]=temp;
+            i=left;
+        }
+        else{
+            meta_block* temp=h->arr[i];
+            h->arr[i]=h->arr[right];
+            h->arr[right]=temp;
+            i=right;
+        }
+
+    }
+}
+
+void findandremove(heap *h,meta_block* mb){
+     int index=findindex(h,mb);
+     if(index==-1) return;
+     h->arr[index]=h->arr[h->rear];
+     h->rear--;
+     int parent=(index-1)/2;
+     if(h->arr[parent]->size<h->arr[index]->size) goup(h,index);
+     else godown(h,index);
+     return;
+}

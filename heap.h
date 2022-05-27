@@ -11,5 +11,5 @@ typedef struct heap{
 void insert_heap(heap* h,meta_block* mb);
 meta_block* remove_heap(heap* h);
 meta_block* top_heap(heap* h);
-
+void findandremove(heap *h,meta_block* mb);
 #endif

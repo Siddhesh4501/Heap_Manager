@@ -16,6 +16,7 @@ void* mm_get_new_virtual_memory_page_from_kernal(int units);
 void* return_vm_page_to_kernel(void* vm_page,int units);
 
 void* Malloc(int size);
+void Free(void* ptr);
 void setheap();
 void printheap();
 
