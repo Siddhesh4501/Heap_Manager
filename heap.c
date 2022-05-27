@@ -16,6 +16,7 @@ void heapifyup(heap* h){
         h->arr[i]=h->arr[parent];
         h->arr[parent]=temp;
     }
+    // printf("heapify up called");
     return;
 }
 void heapifydown(heap* h){
@@ -61,6 +62,7 @@ meta_block* remove_heap(heap* h){
 void insert_heap(heap* h,meta_block* mb){
     if(h->rear==h->size-1) return;
     h->arr[++h->rear]=mb;
+    // printf("%p %d\n",h->arr[h->rear],h->rear);
     heapifyup(h);
     return;
 }

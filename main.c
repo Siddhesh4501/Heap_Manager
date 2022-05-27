@@ -19,9 +19,22 @@ int main(){
     MM_REG_STRUCT(emp);
     Iterate_over_all_structures();
     setheap();
-    student* st=Malloc(sizeof(student));
+    student* st=(student*)Malloc(sizeof(student));
+    student* st1=(student*)Malloc(sizeof(student));
+    student* st2=(student*)Malloc(3920);
+    int* arr=(int*)Malloc(sizeof(int)*3);
+    arr[0]=1;
+    arr[1]=2;
+    arr[2]=3;
+    for(int i=0;i<3;i++)
+       printf("%d ",arr[i]);
+    printf("\n");
+    // printheap();
     st->id=100;
+    st1->id=444;
     strcpy(st->name,"siddhesh");
-    printf("%s %d",st->name,st->id);
+    strcpy(st1->name,"tanmay");
+    printf("%s %d\n",st->name,st->id);
+    printf("%s %d\n",st1->name,st1->id);
     return 0;
 }

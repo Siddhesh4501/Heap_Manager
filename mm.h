@@ -17,7 +17,7 @@ void* return_vm_page_to_kernel(void* vm_page,int units);
 
 void* Malloc(int size);
 void setheap();
-
+void printheap();
 
 
 #define MM_MAX_STRUCT_NAME 32
@@ -25,7 +25,7 @@ void setheap();
      (SYSTEM_PAGE_SIZE-(sizeof(struct_for_struct_storing*)))/sizeof(struct_for_struct_info)
 
 #define offsetof(struct_name,field_name) (unsigned int)&((struct_name*)0)->field_name
-#define get_actual_add(memadd) memadd+sizeof(meta_block)
+#define get_actual_add(memadd) ((char*)memadd+sizeof(meta_block))
 
 typedef struct struct_for_struct_info{
     char struct_name[MM_MAX_STRUCT_NAME];

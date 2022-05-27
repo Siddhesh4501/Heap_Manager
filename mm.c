@@ -104,6 +104,8 @@ void initialize_new_page(vm_page_for_memory* newpage){
     mb->next=NULL;
     mb->prev=NULL;
     mb->size=SYSTEM_PAGE_SIZE-(sizeof(vm_page_for_memory)+sizeof(meta_block));
+    mb->offset=offsetof(vm_page_for_memory,meta_data_block);
+    printf("%d %d\n",mb->size,mb->offset);
     // printf("\n%d %d\n",sizeof(vm_page_for_memory),sizeof(meta_block));
     // printf("\n%d %d\n",sizeof(meta_block*),sizeof(int));
     insert_heap(pointer_to_heap,mb);
@@ -114,20 +116,48 @@ void initialize_new_page(vm_page_for_memory* newpage){
 
 void* Malloc(int size){
     meta_block* block=top_heap(pointer_to_heap);
-    if(!block){
+    
+    if(!block || block->size<size){
         vm_page_for_memory* newpage=mm_get_new_virtual_memory_page_from_kernal(1);
         initialize_new_page(newpage);
         block=top_heap(pointer_to_heap);
         if(block->size<size){
+            printf("%d ",block->size);
             printf("Could not allocate that much amount of size of structure size==%d \n",size);
             return NULL;
         }
-        // printf("%d",pointer_to_heap->rear);
-        return get_actual_add(block);
     }
-    // if(block->size<size){
-        
-    // }
-    return NULL;
+    block->is_free=0;
+    remove_heap(pointer_to_heap);
+    int remaining_size=block->size-size;
+    if(block->offset+size+sizeof(meta_block)+sizeof(meta_block)<=SYSTEM_PAGE_SIZE){
+        block->size=size;
+        meta_block* newblockadd=(char*)get_actual_add(block)+size;
+        newblockadd->prev=block;
+        newblockadd->next=NULL;
+        newblockadd->is_free=1;
+        newblockadd->offset=newblockadd->prev->offset+sizeof(meta_block)+newblockadd->prev->size;
+        newblockadd->size=SYSTEM_PAGE_SIZE-(newblockadd->offset+sizeof(meta_block));
+        block->next=newblockadd;
+        printf("block size set %d\n",block->size);
+        // printf("%p\n",newblockadd);
+        insert_heap(pointer_to_heap,newblockadd);
+        // printf("else run\n");
+    }
+    return get_actual_add(block);
 }
 
+
+
+
+
+
+
+
+
+
+void printheap(heap* pointer_to_heap){
+    // printf("%d\n",pointer_to_heap->rear);
+    for(int i=0;i<=pointer_to_heap->rear;i++)
+       printf("sizeofblock %d\n",pointer_to_heap->arr[i]->size);
+}
