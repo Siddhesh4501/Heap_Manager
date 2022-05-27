@@ -1,5 +1,6 @@
 #include<stdio.h>
-#include "uapi.h"
+#include<string.h>
+#include "mm.h"
 
 typedef struct emp{
     char name[10];
@@ -17,7 +18,10 @@ int main(){
     MM_REG_STRUCT(student);
     MM_REG_STRUCT(emp);
     Iterate_over_all_structures();
-
-
+    setheap();
+    student* st=Malloc(sizeof(student));
+    st->id=100;
+    strcpy(st->name,"siddhesh");
+    printf("%s %d",st->name,st->id);
     return 0;
 }

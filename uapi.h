@@ -1,16 +1,15 @@
-// #include<stdint.h>
-#include "mm.h"
-#ifndef __UAPI_MM__
-#define __UAPI_MM__
+// // #include<stdint.h>
+// #ifndef __UAPI__
+// #define __UAPI__
+// #include "mm.h"
+// void mm_init();
 
+// void mm_instantiate_structure(char* struct_name,int struct_size);
 
-void mm_init();
+// #define MM_REG_STRUCT(struct_name) \
+//        (mm_instantiate_structure(#struct_name,sizeof(struct_name)))
 
-void mm_instantiate_structure(char* struct_name,int struct_size);
+// void Iterate_over_all_structures();
 
-#define MM_REG_STRUCT(struct_name) \
-       (mm_instantiate_structure(#struct_name,sizeof(struct_name)))
-
-void Iterate_over_all_structures();
-
-#endif
+// void* Malloc(char* struc_name,int no);
+// #endif
