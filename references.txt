@@ -1,0 +1,5 @@
+1) Zero length array: https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+2) Offset of struct field: https://www.geeksforgeeks.org/the-offsetof-macro/
+3) mmap and munmap: https://man7.org/linux/man-pages/man2/mmap.2.html
+4) getpagesize :https://man7.org/linux/man-pages/man2/getpagesize.2.html
+5) forDeleteInternalNodInHeap: http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/9-BinTree/heap-delete.html

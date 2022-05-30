@@ -28,6 +28,7 @@ int main(){
     strcpy(st1->name,"tanmay");
     // printf("%s %d\n",st->name,st->id);
     printf("%s %d\n",st1->name,st1->id);
+    printf("%s %d\n",st2->name,st2->id);
     Free(st2);
     Free(st1);
     Free(st3);

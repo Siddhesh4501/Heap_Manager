@@ -8,10 +8,13 @@
 #define get_actual_add(memadd) ((char*)memadd+sizeof(meta_block))
 
 
+
+
+
 // struct which points to memory get through mmap call
-typedef struct vm_page_for_memory{
+typedef struct page_for_memory{
       char meta_data_block[0];
-} vm_page_for_memory;
+} page_for_memory;
 
 // struct to store content of meta-block
 typedef struct meta_block{
@@ -21,6 +24,9 @@ typedef struct meta_block{
     int is_free;
     int offset;
 } meta_block;
+
+
+
 
 // Initialize the memory manager
 void mm_init();

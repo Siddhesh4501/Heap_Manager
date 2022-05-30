@@ -1,8 +1,4 @@
 #include<stdio.h>
-#include<stdint.h>
-#include<memory.h>
-#include<unistd.h>     //for getting one virtual page 
-#include<sys/mman.h>   //for using mmap
 #include "heap.h"
 
 #define max(a,b) (a)>b?a:b
@@ -63,7 +59,6 @@ void remove_heap(heap* h){
 void insert_heap(heap* h,meta_block* mb){
     if(h->rear==h->size-1) return;
     h->arr[++h->rear]=mb;
-    // printf("%p %d\n",h->arr[h->rear],h->rear);
     heapifyup(h);
     return;
 }
