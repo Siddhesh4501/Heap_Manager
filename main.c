@@ -15,10 +15,6 @@ typedef struct student{
 
 int main(){
     mm_init();
-    MM_REG_STRUCT(student);
-    MM_REG_STRUCT(emp);
-    Iterate_over_all_structures();
-    setheap();
     int* arr=(int*)Malloc(sizeof(int)*5);
     student* st1=(student*)Malloc(sizeof(student));
     student* st2=(student*)Malloc(sizeof(student));
@@ -28,15 +24,14 @@ int main(){
     st2->id=102;
     st3->id=103;
     st1->id=444;
-    // strcpy(st->name,"siddhesh");
+    strcpy(st2->name,"siddhesh");
     strcpy(st1->name,"tanmay");
     // printf("%s %d\n",st->name,st->id);
     printf("%s %d\n",st1->name,st1->id);
-    // printheap();
     Free(st2);
     Free(st1);
     Free(st3);
-    // printheap();
-
+    Free(arr);
+    
     return 0;
 }

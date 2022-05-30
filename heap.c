@@ -19,6 +19,8 @@ void heapifyup(heap* h){
     // printf("heapify up called");
     return;
 }
+
+
 void heapifydown(heap* h){
     int i=0;
     while(1){
@@ -49,14 +51,13 @@ void heapifydown(heap* h){
        
 }
 
-meta_block* remove_heap(heap* h){
-    if(h->rear==-1) return NULL;
+void remove_heap(heap* h){
+    if(h->rear==-1) return;
     meta_block* ans=h->arr[0];
     h->arr[0]=h->arr[h->rear];
     h->rear--;
     if(h->rear!=-1)
        heapifydown(h);
-    return ans;
 }
 
 void insert_heap(heap* h,meta_block* mb){
