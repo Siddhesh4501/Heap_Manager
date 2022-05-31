@@ -181,7 +181,7 @@ void* Realloc(void* ptr,int size){
                 mb->next=newmb;
                 if(nextnextblockadd)
                    nextnextblockadd->prev=newmb;
-                Free(newmb);
+                Free(get_actual_add(newmb));
                 printf("1 realloc\n");
                 return ptr;
             }
@@ -214,7 +214,7 @@ void* Realloc(void* ptr,int size){
         if(next)
           next->prev=newmb;
         mb->next=newmb;
-        Free(get_actual_add(mb));
+        Free(get_actual_add(newmb));
         return ptr;
     }
     return ptr;
