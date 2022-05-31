@@ -6,7 +6,7 @@
 
 // global variables for heap and storing size of one memory page
 heap* pointer_to_heap;
-int sizeofonememorypage=0;
+int sizeofonememorypage;
 
 
 // function to get memory page from system 
@@ -16,7 +16,6 @@ void* get_page_from_system(int units){
         printf("Error: VM page allocation failed\n");
         return NULL;
     }
-    // memset(vm_page,0,units*sizeofonememorypage);
     return (void*)vm_page;
 }
 
@@ -29,8 +28,10 @@ void setheap(){
 
 // Function for initializing our memory manager and getting one memory page size 
 void mm_init(){
-    sizeofonememorypage=getpagesize();
+    // sizeofonememorypage=getpagesize();
+    sizeofonememorypage=5000;
     setheap();
+    printf("%d\n",sizeof(page_for_memory));
 }
 
 // Function for returning memory back to system
@@ -48,10 +49,6 @@ void initialize_new_page(page_for_memory* newpage){
     mb->next=NULL;
     mb->prev=NULL;
     mb->size=sizeofonememorypage-(sizeof(page_for_memory)+sizeof(meta_block));
-    mb->offset=offsetof(page_for_memory,meta_data_block);
-    // printf("%d %d\n",mb->size,mb->offset);
-    // printf("\n%d %d\n",sizeof(page_for_memory),sizeof(meta_block));
-    // printf("\n%d %d\n",sizeof(meta_block*),sizeof(int));
     insert_heap(pointer_to_heap,mb);
 }
 
@@ -73,16 +70,15 @@ void* Malloc(int size){
     block->is_free=0;                                // initializing free block get from heap and removing from heap
     remove_heap(pointer_to_heap);                     
     int remaining_size=block->size-size;
-    if(block->offset+size+2*sizeof(meta_block)<=sizeofonememorypage){  //checking if free block can be splitted into smaller blocks or not
+    if(size+2*sizeof(meta_block)<=block->size){  //checking if free block can be splitted into smaller blocks or not
         block->size=size;
         meta_block* newblockadd=(char*)get_actual_add(block)+size;     //finding address for meta-block of remaining size after allocation
         newblockadd->prev=block;
         newblockadd->next=block->next;
         newblockadd->is_free=1;
-        newblockadd->offset=newblockadd->prev->offset+sizeof(meta_block)+newblockadd->prev->size;
-        newblockadd->size=sizeofonememorypage-(newblockadd->offset+sizeof(meta_block));
+        newblockadd->size=remaining_size-(sizeof(meta_block));
         block->next=newblockadd;
-        printf("block size set %d\n",block->size);
+        // printf("block size set %d\n",block->size);
         // printf("%p\n",newblockadd);
         insert_heap(pointer_to_heap,newblockadd);                     // inserting remaining free memory in heap 
         // printf("else run\n");

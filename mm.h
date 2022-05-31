@@ -1,5 +1,5 @@
-#ifndef __MMh__
-#define __MMh__
+#ifndef mmh
+#define mmh
 
 // used to find offset of specific field in given structure
 #define offsetof(struct_name,field_name) (int)&((struct_name*)0)->field_name
@@ -22,7 +22,6 @@ typedef struct meta_block{
     struct meta_block *prev;
     int size;
     int is_free;
-    int offset;
 } meta_block;
 
 
@@ -36,5 +35,6 @@ void* Malloc(int size);
 
 // For free memory
 void Free(void* ptr);
+
 
 #endif

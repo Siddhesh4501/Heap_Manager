@@ -1,5 +1,5 @@
-#ifndef __heaph__
-#define __heaph__
+#ifndef heaph
+#define heaph
 #include "mm.h"
 
 // heap structure

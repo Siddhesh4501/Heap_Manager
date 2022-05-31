@@ -41,10 +41,7 @@ void heapifydown(heap* h){
             h->arr[right]=temp;
             i=right;
         }
-
     }
-   
-       
 }
 
 void remove_heap(heap* h){
