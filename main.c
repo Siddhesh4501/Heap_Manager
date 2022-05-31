@@ -15,8 +15,8 @@ typedef struct student{
 
 int main(){
     mm_init();
-    int* arr=(int*)Malloc(sizeof(int)*5);
     student* st1=(student*)Malloc(sizeof(student));
+    int* arr=(int*)Malloc(sizeof(int)*5);
     student* st2=(student*)Malloc(sizeof(student));
     student* st3=(student*)Malloc(sizeof(student));
     // student* st2=(student*)Malloc(3920);
@@ -30,9 +30,12 @@ int main(){
     printf("%s %d\n",st1->name,st1->id);
     printf("%s %d\n",st2->name,st2->id);
     Free(st2);
-    Free(st1);
-    Free(st3);
+    // Free(st1);
+    // Free(st3);
+    // Free(arr);
+    arr=Realloc(arr,sizeof(int)*10);
     Free(arr);
-    
+    printf("\n%d",sizeof(student));
+    printheap();
     return 0;
 }

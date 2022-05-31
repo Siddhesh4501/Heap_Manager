@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #include<unistd.h>     //for getting one virtual page 
 #include<sys/mman.h>   //for using mmap
 #include "mm.h"
@@ -32,6 +33,7 @@ void mm_init(){
     sizeofonememorypage=5000;
     setheap();
     printf("%d\n",sizeof(page_for_memory));
+    // printf("\nmetablock size %d",sizeof(meta_block));
 }
 
 // Function for returning memory back to system
@@ -159,8 +161,77 @@ void Free(void* ptr){
 }
 
 
-// void printheap(){
-//     // printf("%d\n",pointer_to_heap->rear);
-//     for(int i=0;i<=pointer_to_heap->rear;i++)
-//        printf("sizeofblock %d\n",pointer_to_heap->arr[i]->size);
-// }
+void* Realloc(void* ptr,int size){
+    meta_block* mb=(char*)ptr-sizeof(meta_block);
+    int mbsize=mb->size;
+    if(mbsize==size) return ptr;
+    meta_block* next=mb->next;
+    if(mbsize<size){
+        int nextblocksize=next->size;
+        meta_block* nextnextblockadd=next->next;
+        if(next && next->is_free && mbsize+sizeof(meta_block)+nextblocksize>=size){
+            findandremove(pointer_to_heap,next);
+            if(mbsize+sizeof(meta_block)+nextblocksize>=size+sizeof(meta_block)){
+                mb->size=size;
+                meta_block* newmb=(char*)mb+size+sizeof(meta_block);
+                newmb->is_free=1;
+                newmb->next=nextnextblockadd;
+                newmb->prev=mb;
+                newmb->size=mbsize+sizeof(meta_block)+nextblocksize-size-sizeof(meta_block);
+                mb->next=newmb;
+                if(nextnextblockadd)
+                   nextnextblockadd->prev=newmb;
+                Free(newmb);
+                printf("1 realloc\n");
+                return ptr;
+            }
+            else{
+                mb->size=mbsize+sizeof(meta_block)+nextblocksize;
+                mb->next=nextnextblockadd;
+                if(nextnextblockadd)
+                   nextnextblockadd->prev=mb;
+                printf("2 realloc\n");
+                return ptr;
+            }
+        }
+        else{
+            void* newadd=Malloc(size);
+            if(!newadd) return NULL;
+            memcpy(newadd,ptr,mbsize);
+            mb->is_free=1;
+            Free(ptr);
+            return newadd;
+        }
+    }
+
+    if(mbsize>=sizeof(meta_block)+size){
+        mb->size=size;
+        meta_block* newmb=(char*)mb+size+sizeof(meta_block);
+        newmb->is_free=1;
+        newmb->size=mbsize-size-sizeof(meta_block);
+        newmb->next=next;
+        newmb->prev=mb;
+        if(next)
+          next->prev=newmb;
+        mb->next=newmb;
+        Free(get_actual_add(mb));
+        return ptr;
+    }
+    return ptr;
+}
+
+
+
+
+
+
+
+
+
+void printheap(){
+    // printf("%d\n",pointer_to_heap->rear);
+    for(int i=0;i<=pointer_to_heap->rear;i++)
+       printf("sizeofblock %d\n",pointer_to_heap->arr[i]->size);
+}
+
+

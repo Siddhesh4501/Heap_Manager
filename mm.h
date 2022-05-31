@@ -16,7 +16,7 @@ typedef struct page_for_memory{
       char meta_data_block[0];
 } page_for_memory;
 
-// struct to store content of meta-block
+// struct to store content of meta-block 24kb
 typedef struct meta_block{
     struct meta_block *next;
     struct meta_block *prev;
@@ -36,5 +36,8 @@ void* Malloc(int size);
 // For free memory
 void Free(void* ptr);
 
+void* Realloc(void* ptr,int size);
+
+void printheap();
 
 #endif
