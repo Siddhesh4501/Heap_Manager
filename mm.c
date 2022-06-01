@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<string.h>
-#include<unistd.h>     //for getting one virtual page 
+#include<unistd.h>     //for getting one memory page 
 #include<sys/mman.h>   //for using mmap
 #include "mm.h"
 #include "heap.h"
@@ -166,11 +166,17 @@ void* Realloc(void* ptr,int size){
     int mbsize=mb->size;
     if(mbsize==size) return ptr;
     meta_block* next=mb->next;
+
+    // if realloc size is more than current size
     if(mbsize<size){
         int nextblocksize=next->size;
         meta_block* nextnextblockadd=next->next;
+
+        // if next block is free can merge to form relloc size 
         if(next && next->is_free && mbsize+sizeof(meta_block)+nextblocksize>=size){
             findandremove(pointer_to_heap,next);
+
+            // if new meta-free block can be created 
             if(mbsize+sizeof(meta_block)+nextblocksize>=size+sizeof(meta_block)){
                 mb->size=size;
                 meta_block* newmb=(char*)mb+size+sizeof(meta_block);
@@ -185,6 +191,8 @@ void* Realloc(void* ptr,int size){
                 printf("1 realloc\n");
                 return ptr;
             }
+
+            // if new-meta block can not be created then allocate all free memory of next block to curr block
             else{
                 mb->size=mbsize+sizeof(meta_block)+nextblocksize;
                 mb->next=nextnextblockadd;
@@ -194,6 +202,7 @@ void* Realloc(void* ptr,int size){
                 return ptr;
             }
         }
+        // if next block is not free then mallocate required size of memory, copy content of current memory to that location and free current one 
         else{
             void* newadd=Malloc(size);
             if(!newadd) return NULL;
@@ -203,7 +212,9 @@ void* Realloc(void* ptr,int size){
             return newadd;
         }
     }
+    // if realloc size is less than current size
 
+    // if meta-data block can be created then split current block and Free newly created block
     if(mbsize>=sizeof(meta_block)+size){
         mb->size=size;
         meta_block* newmb=(char*)mb+size+sizeof(meta_block);
@@ -217,14 +228,19 @@ void* Realloc(void* ptr,int size){
         Free(get_actual_add(newmb));
         return ptr;
     }
+
+    // else return same ptr without any changes
     return ptr;
 }
 
 
-
-
-
-
+void* Calloc(int n,int size){
+    // allocate n*size of memory using malloc
+    void* mem=Malloc(size*n);
+    // set all the bytes in allocated memory to 0 as required in calloc
+    memset(mem,0,size*n);
+    return mem;
+}
 
 
 

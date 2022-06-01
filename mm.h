@@ -36,7 +36,11 @@ void* Malloc(int size);
 // For free memory
 void Free(void* ptr);
 
+// for reallocation of memory
 void* Realloc(void* ptr,int size);
+
+// for calloc call
+void* Calloc(int n,int size);
 
 void printheap();
 
