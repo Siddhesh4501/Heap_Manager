@@ -11,6 +11,8 @@ void heapifyup(heap* h){
         meta_block* temp=h->arr[i];
         h->arr[i]=h->arr[parent];
         h->arr[parent]=temp;
+        i=parent;
+        parent=(i-1)/2;
     }
     // printf("heapify up called");
     return;
@@ -80,6 +82,8 @@ void goup(heap* h,int i){
         meta_block* temp=h->arr[i];
         h->arr[i]=h->arr[parent];
         h->arr[parent]=temp;
+        i=parent;
+        parent=(i-1)/2;
     }
     return;
 }
