@@ -22,6 +22,7 @@ typedef struct meta_block{
     struct meta_block *prev;
     int size;
     int is_free;
+    int pos;
 } meta_block;
 
 
