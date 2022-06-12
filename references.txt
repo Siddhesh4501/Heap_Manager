@@ -2,5 +2,4 @@
 2) Offset of struct field: https://www.geeksforgeeks.org/the-offsetof-macro/
 3) mmap and munmap: https://man7.org/linux/man-pages/man2/mmap.2.html  https://www.tutorialspoint.com/unix_system_calls/mmap.htm
 4) getpagesize :https://man7.org/linux/man-pages/man2/getpagesize.2.html
-5) forDeleteInternalNodInHeap: http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/9-BinTree/heap-delete.html
-6) MAP_ANON|MAP_PRIVATE: https://stackoverflow.com/questions/34042915/what-is-the-purpose-of-map-anonymous-flag-in-mmap-system-call
+5) fordeleteinternalnodinHeap: http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/9-BinTree/heap-delete.html

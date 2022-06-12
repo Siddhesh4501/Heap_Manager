@@ -15,7 +15,6 @@ void heapifyup(heap *h)
         i = parent;
         parent = (i - 1) / 2;
     }
-    // printf("heapify up called");
     return;
 }
 

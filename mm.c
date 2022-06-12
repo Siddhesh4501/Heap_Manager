@@ -34,15 +34,13 @@ void setheap()
 // Function for initializing our memory manager and getting one memory page size
 void mm_init2(int size)
 {
-    printf("size in init %d ",size);
     // sizeofonememorypage=getpagesize();
-    sizeofonememorypage = size;
+    sizeofonememorypage = size+sizeof(meta_block);
     setheap();
-    printf("%d\n", sizeof(page_for_memory));
-    // printf("\nmetablock size %d",sizeof(meta_block));
 }
 
-void mm_init1(){
+void mm_init1()
+{
     // 5000 is default memory page size we decide to allocate
     mm_init2(5000);
 }
@@ -80,7 +78,6 @@ void *Malloc(int size)
         block = top_heap(pointer_to_heap);
         if (block->size < size)
         { // if still can not allocate then not possible to allocate memory as requested memory is huge
-            printf("%d ", block->size);
             printf("Could not allocate that much amount of size of structure size == %d \n", size);
             return NULL;
         }
@@ -97,10 +94,7 @@ void *Malloc(int size)
         newblockadd->is_free = 1;
         newblockadd->size = remaining_size - (sizeof(meta_block));
         block->next = newblockadd;
-        // printf("block size set %d\n",block->size);
-        // printf("%p\n",newblockadd);
         insert_heap(pointer_to_heap, newblockadd); // inserting remaining free memory in heap
-        // printf("else run\n");
     }
     return get_actual_add(block);
 }
@@ -195,9 +189,11 @@ void *Realloc(void *ptr, int size)
 
     meta_block *mb = (char *)ptr - sizeof(meta_block);
     int mbsize = mb->size;
+    meta_block *next = mb->next;
+
+     //if realloc size is same as current size
     if (mbsize == size)
         return ptr;
-    meta_block *next = mb->next;
 
     // if realloc size is more than current size
     if (mbsize < size)
@@ -223,7 +219,6 @@ void *Realloc(void *ptr, int size)
                 if (nextnextblockadd)
                     nextnextblockadd->prev = newmb;
                 Free(get_actual_add(newmb));
-                printf("1 realloc\n");
                 return ptr;
             }
 
@@ -234,7 +229,6 @@ void *Realloc(void *ptr, int size)
                 mb->next = nextnextblockadd;
                 if (nextnextblockadd)
                     nextnextblockadd->prev = mb;
-                printf("2 realloc\n");
                 return ptr;
             }
         }
@@ -283,10 +277,13 @@ void *Calloc(int n, int size)
     return mem;
 }
 
-void printheap()
-{
 
-    // printf("%d\n",pointer_to_heap->rear);
-    for (int i = 0; i <= pointer_to_heap->rear; i++)
-        printf("sizeofblock %d\n", pointer_to_heap->arr[i]->size);
-}
+// print heap used for checking whether block remove or add in right way or not
+
+// void printheap()
+// {
+
+//     // printf("%d\n",pointer_to_heap->rear);
+//     for (int i = 0; i <= pointer_to_heap->rear; i++)
+//         printf("sizeofblock %d\n", pointer_to_heap->arr[i]->size);
+// }

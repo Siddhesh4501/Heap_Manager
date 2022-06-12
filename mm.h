@@ -41,6 +41,6 @@ void *Realloc(void *ptr, int size);
 // for calloc call
 void *Calloc(int n, int size);
 
-void printheap();
+// void printheap();
 
 #endif
