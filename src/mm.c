@@ -57,7 +57,6 @@ void initialize_new_page(page_for_memory *newpage)
 {
 
     meta_block *mb = (meta_block *)newpage;
-    // meta_block* mb=(meta_block*)((char*)newpage+offsetof(page_for_memory,meta_data_block));
     mb->is_free = 1;
     mb->next = NULL;
     mb->prev = NULL;

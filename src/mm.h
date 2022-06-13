@@ -1,8 +1,6 @@
 #ifndef mmh
 #define mmh
 
-// used to find offset of specific field in given structure
-#define offsetof(struct_name, field_name) (int)&((struct_name *)0)->field_name
 
 // used to find actual memory address from given meta block address of specific block
 #define get_actual_add(memadd) ((char *)memadd + sizeof(meta_block))
