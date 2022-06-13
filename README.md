@@ -58,6 +58,9 @@ Execute ```./final``` to see output of your code.
 
 ### Logic Implemented in this Project
 
+## Memory Layout
+<img src="Images/Memory_Layout.png" width="700" height="900"/>
+
 ## Malloc
 <img src="Images/Malloc.png" width="1000" height="600"/>
 
