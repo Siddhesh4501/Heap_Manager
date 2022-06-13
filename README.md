@@ -1,9 +1,6 @@
 # Heap_Manager
 Heap Manager made in C language as Project For DSA-II Course.
 
-Name:- Siddhesh Pawar </br>
-MIS:- 112003112       </br>
-Div:-2
 
 </br>
 
