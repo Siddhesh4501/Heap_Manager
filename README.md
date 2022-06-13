@@ -38,6 +38,10 @@ Copy `mm.c`, `mm.h`, `heap.c` and `heap.c` from the **src/** folder to your proj
 ```
 #include "mm.h"
 ```
+Don't forget to add mm_init() at the start of your main() function or any other file in which use include `mm.h` file.
+```
+mm_init()
+```
 
 Compile program by using
 
