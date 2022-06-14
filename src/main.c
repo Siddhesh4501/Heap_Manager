@@ -29,13 +29,12 @@ int main()
     // Free(st1);
     // Free(st3);
     // Free(st5);
-    // student* st7=Malloc(4496);
     // printheap();
 
 
 
 
-    // for Free Testing
+    // // for Free Testing
     //  student* st1=Malloc(sizeof(student)*1);
     //  student* st2=Malloc(sizeof(student)*2);
     //  student* st3=Malloc(sizeof(student)*3);
@@ -53,29 +52,27 @@ int main()
 
 
 
-    // for Free Calloc
-    // student *st1 = Malloc(sizeof(student) * 1);
-    // student *st2 = Malloc(sizeof(student) * 2);
+    // // for Calloc testing
+    // student *st1 = Calloc(1,sizeof(student));;
+    // student *st2 = Calloc(2,sizeof(student));
+    // printf("%d %s\n",st1->id,st1->name);
     // st1->id = 12;
     // strcpy(st1->name, "siddhesh");
-    // printf("1)%d %s\n", st1->id, st1->name);
-    // Free(st1);
-    // printf("2)%d %s\n", st1->id, st1->name);
-    // st1 = Calloc(1, sizeof(student));
-    // printf("3)%d %s\n", st1->id, st1->name);
-
-
+    // printf("%d %s\n", st1->id, st1->name);
+    
 
 
 
     // For Realloc
     // student* st1=Malloc(sizeof(student)*10);
-    // student* st2=Malloc(sizeof(student)*1);
     // st1->id = 12;
     // strcpy(st1->name, "siddhesh");
     // printf("%d %s\n", st1->id, st1->name);
     // printheap();
     // st1=Realloc(st1,sizeof(student)*2);
+    // printf("%d %s\n", st1->id, st1->name);
+    // printheap();
+    // st1=Realloc(st1,sizeof(student)*5);
     // printf("%d %s\n", st1->id, st1->name);
     // printheap();
 

@@ -84,7 +84,7 @@ void *Malloc(int size)
     block->is_free = 0; // initializing free block get from heap and removing from heap
     remove_heap(pointer_to_heap);
     int remaining_size = block->size - size;
-    if (size + 2 * sizeof(meta_block) <= block->size)
+    if (size +  sizeof(meta_block) <= block->size)
     { // checking if free block can be splitted into smaller blocks or not
         block->size = size;
         meta_block *newblockadd = (char *)get_actual_add(block) + size; // finding address for meta-block of remaining size after allocation
@@ -279,10 +279,10 @@ void *Calloc(int n, int size)
 
 // print heap used for checking whether block remove or add in right way or not
 
-// void printheap()
-// {
+void printheap()
+{
 
-//     // printf("%d\n",pointer_to_heap->rear);
-//     for (int i = 0; i <= pointer_to_heap->rear; i++)
-//         printf("sizeofblock %d\n", pointer_to_heap->arr[i]->size);
-// }
+    // printf("%d\n",pointer_to_heap->rear);
+    for (int i = 0; i <= pointer_to_heap->rear; i++)
+        printf("sizeofblock %d\n", pointer_to_heap->arr[i]->size);
+}
