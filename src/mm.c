@@ -92,6 +92,8 @@ void *Malloc(int size)
         newblockadd->next = block->next;
         newblockadd->is_free = 1;
         newblockadd->size = remaining_size - (sizeof(meta_block));
+        if(block->next)
+            block->next->prev=newblockadd;
         block->next = newblockadd;
         insert_heap(pointer_to_heap, newblockadd); // inserting remaining free memory in heap
     }
