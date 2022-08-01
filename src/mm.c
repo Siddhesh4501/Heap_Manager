@@ -199,8 +199,8 @@ void *Realloc(void *ptr, int size)
     // if realloc size is more than current size
     if (mbsize < size)
     {
-        int nextblocksize = next->size;
-        meta_block *nextnextblockadd = next->next;
+        int nextblocksize = next ? next->size : 0;
+        meta_block *nextnextblockadd = next ? next->next : NULL;
 
         // if next block is free can merge to form relloc size
         if (next && next->is_free && mbsize + sizeof(meta_block) + nextblocksize >= size)
