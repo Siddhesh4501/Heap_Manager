@@ -43,7 +43,7 @@ mm_init()
 Compile program by using
 
 ```
-gcc yourfiles.c mm.c heap.c -o yourfile
+gcc yourfiles.c mm.c heap.c -o final
 ```
 Execute ```./final``` to see output of your code.
 
