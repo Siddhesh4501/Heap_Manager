@@ -75,5 +75,3 @@ Execute ```./final``` to see output of your code.
 - [Zero length array](https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html)
 - [Offset of struct field](https://www.geeksforgeeks.org/the-offsetof-macro/)
 - [mmap and munmap](https://www.tutorialspoint.com/unix_system_calls/mmap.htm)
-- [getpagesize](https://man7.org/linux/man-pages/man2/getpagesize.2.html)
-- [fordeleteinternalnodinHeap](http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/9-BinTree/heap-delete.html)
