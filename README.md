@@ -30,7 +30,7 @@ Download the repository (May be use git clone or download zip folder of project)
 $ git clone  https://github.com/Siddhesh4501/Heap_Manager.git
 ```
 
-Copy `mm.c`, `mm.h`, `heap.c` and `heap.c` from the **src/** folder to your project directory and include `mm.h` in your main file instead of ```<stdlib.h>``` library
+Copy `mm.h`, `mm.c`, `heap.h` and `heap.c` from the **src/** folder to your project directory and include `mm.h` in your main file instead of ```<stdlib.h>``` library
 
 ```
 #include "mm.h"
@@ -43,7 +43,7 @@ mm_init()
 Compile program by using
 
 ```
-gcc yourfiles.c mm.c heap.c -o yourfile
+gcc yourfiles.c mm.c heap.c -o final
 ```
 Execute ```./final``` to see output of your code.
 
